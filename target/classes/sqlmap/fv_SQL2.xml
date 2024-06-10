@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="favorites">
+
+<!-- 회원가입 -->
+<insert id="insert" parameterType="hashMap" useGeneratedKeys="true" keyProperty="id">  
+    <![CDATA[
+    insert into favorites
+    (userid, rtname, rtcode, rtaddr1, rtaddr2 ) 
+    values
+    (#{userid}, #{rtname}, #{rtcode}, #{rtaddr1}, #{rtaddr2})
+    ]]>
+</insert>
+ 
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="hashMap">  
+	<![CDATA[  
+	delete from favorites  
+	where  
+	userid = #{userid}  
+	]]>  
+</delete>  
+
+<select id="select_list" parameterType="hashMap" resultType="hashMap">  
+	<![CDATA[  
+	select
+		userid,
+		rtname,  
+        rtcode,
+        rtaddr1,
+        rtaddr2
+	from  
+	favorites 
+	where 1 = 1  
+	]]>  
+	<if test="keyword != null and keyword != ''">  
+	and (userid like CONCAT('%',#{keyword},'%') or nickname like CONCAT('%',#{keyword},'%'))  
+	</if>  
+	order by name desc  
+</select>
+
+
+</mapper>
